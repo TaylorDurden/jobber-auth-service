@@ -9,7 +9,7 @@ import { config } from '@auth/config';
 import { verify } from 'jsonwebtoken';
 import { CustomError, IAuthPayload, IErrorResponse } from '@taylordurden/jobber-shared';
 import compression from 'compression';
-import { checkConnection } from '@auth/elasticsearch';
+import { checkConnection, createIndex } from '@auth/elasticsearch';
 import { createConnectionMQ } from '@auth/queues/connection';
 import { appRoutes } from '@auth/routes';
 import { Channel } from 'amqplib';
@@ -67,6 +67,7 @@ async function startQueues(): Promise<void> {
 
 function startElasticSearch() {
   checkConnection();
+  createIndex('gigs');
 }
 
 function authErrorHandler(app: Application) {

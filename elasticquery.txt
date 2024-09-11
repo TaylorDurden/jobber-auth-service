@@ -1,0 +1,15 @@
+GET /gigs/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "query_string": {
+            "fields": ["username", "title", "description", "basicDescription", "basicTitle", "categories", "subCategories", "tags"],
+            "query": "*rios*"
+          }
+        }
+      ]
+    }
+  }
+}
