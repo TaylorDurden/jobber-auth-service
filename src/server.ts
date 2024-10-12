@@ -1,5 +1,6 @@
 import http from 'http';
 
+import 'express-async-errors';
 import { getLogger } from '@auth/helpers';
 import { Application, json, NextFunction, Request, Response, urlencoded } from 'express';
 import helmet from 'helmet';
@@ -72,8 +73,8 @@ function startElasticSearch() {
 
 function authErrorHandler(app: Application) {
   app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
-    log.log('error', `AuthService ${error.comingFrom}:`, error);
     if (error instanceof CustomError) {
+      log.log('error', `AuthService ${error.comingFrom}:`, error.serializeErrors());
       res.status(error.statusCode).json(error.serializeErrors());
     }
     next();
